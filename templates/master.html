@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        {% block head %}
+        {% endblock %}
+    </head>
+    <body>
+        <main>
+            <header>
+              {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                  <ul>
+                    {% for message in messages %}
+                      <li>{{ message }}</li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              {% endwith %}
+            </header>
+            <section>
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="/file-upload/">Upload your Research</a>
+                        </li>
+                    </ul>
+                </nav>
+                {% block main %}
+                    <nav>
+                        <ul>
+                            <li>
+                                <a href="/file-upload/">Upload your Research</a>
+                            </li>
+                        </ul>
+                    </nav>
+                {% endblock %}
+            </section>
+        </main>
+    </body>
+</html>
