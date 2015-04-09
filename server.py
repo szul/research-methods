@@ -4,7 +4,7 @@ import os
 
 from config import *
 from libresearchdata import ResearchData
-from flask import Flask, request, flash, render_template
+from flask import Flask, request, flash, render_template, session
 from werkzeug import secure_filename
 
 app = Flask(__name__)
@@ -30,7 +30,9 @@ def upload():
 
             #The ResearchData class/object will eventually house shortcut methods for processing.
             data = ResearchData('csv')
-            data.to_xml(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            json_data = data.to_json(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            #This is temporary until we're saving to the database.
+            session['data'] = json_data
             #Save data to a database table here.
 
             flash('File uploaded and processed successfully!')
