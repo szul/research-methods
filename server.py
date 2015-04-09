@@ -1,9 +1,9 @@
 import json
 import requests
 import os
-import csv
 
-from config import * 
+from config import *
+from libresearchdata import ResearchData
 from flask import Flask, request, flash, render_template
 from werkzeug import secure_filename
 
@@ -24,13 +24,15 @@ def upload():
         file = request.files['file']
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            #You do not need to actually save the file
+            #Save file to filesystem.
+            #Flask saves large files to a temporary file anyway,so no point in just using a stream.
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            with open(os.path.join(app.config['UPLOAD_FOLDER'], filename), 'rb') as csvfile:
-                rows = csv.reader(csvfile, delimiter=',')
-                for column in rows:
-                    print(', '.join(column))
-                    #Process here
+
+            #The ResearchData class/object will eventually house shortcut methods for processing.
+            data = ResearchData('csv')
+            data.to_xml(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            #Save data to a database table here.
+
             flash('File uploaded and processed successfully!')
     return render_template('file-upload.html')
 
