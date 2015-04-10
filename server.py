@@ -38,5 +38,10 @@ def upload():
             flash('File uploaded and processed successfully!')
     return render_template('file-upload.html')
 
+@app.route('/research-data/', methods=['GET', 'POST'])
+def research_data():
+    data = session['data'] if session.has_key('data') else None
+    return render_template('data-grid.html', data = data)
+
 if __name__ == '__main__':
     app.run()
