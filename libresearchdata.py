@@ -10,39 +10,39 @@ class ResearchData:
         self.data = None
         self.data_format = None
 
-    #Need to refactor the method below and __csv_to_json__ to reduce repeated code.
+    def __opencsvfile__(self, filetoopen):
+        csvfile = open(filetoopen, 'rb')
+        r = csv.reader(csvfile, delimiter=',')
+        headers = []
+        for idx, row in enumerate(r):
+            if idx == 0:
+                headers = row
+                break
+        return (r, headers)
+
     def __csv_to_xml__(self, data, dtype):
         if dtype == 'file':
-            with open(data, 'rb') as csvfile:
-                headers = []
-                #Need to create an XML Schema for research.
-                doc = et.Element('Data')
-                r = csv.reader(csvfile, delimiter=',')
-                for idx, row in enumerate(r):
-                    if idx == 0:
-                        headers = row
-                    childrow = et.SubElement(doc, 'Row')
-                    for idx2, col in enumerate(row):
-                        child = et.SubElement(childrow, headers[idx2])
-                        child.text = col
+            r, headers = self.__opencsvfile__(data)
+            #Need to create an XML Schema for research.
+            doc = et.Element('Data')
+            for idx, row in enumerate(r):
+                childrow = et.SubElement(doc, 'Row')
+                for idx2, col in enumerate(row):
+                    child = et.SubElement(childrow, headers[idx2])
+                    child.text = col
             self.data = doc
             self.data_format = 'xml'
         return self.data
 
     def __csv_to_json__(self, data, dtype):
         if dtype == 'file':
-            with open(data, 'rb') as csvfile:
-                headers = []
-                r = csv.reader(csvfile, delimiter=',')
-                results = []
-                for idx, row in enumerate(r):
-                    if idx == 0:
-                        headers = row
-                        continue
-                    entry = {}
-                    for idx2, col in enumerate(row):
-                        entry[headers[idx2]] = col
-                    results.append({ 'row' : entry })
+            r, headers = self.__opencsvfile__(data)
+            results = []
+            for idx, row in enumerate(r):
+                entry = {}
+                for idx2, col in enumerate(row):
+                    entry[headers[idx2]] = col
+                results.append({ 'row' : entry })
             self.data = json.dumps({ 'data': results })
             self.data_format = 'json'
         return self.data
