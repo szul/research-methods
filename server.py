@@ -4,7 +4,8 @@ import os
 
 from config import *
 from libresearchdata import ResearchData
-from flask import Flask, request, flash, render_template, session
+from data.User.models import PersonCollection, Person
+from flask import Flask, request, flash, render_template, session, redirect
 from werkzeug import secure_filename
 
 app = Flask(__name__)
@@ -17,6 +18,16 @@ def allowed_file(filename):
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/login/', methods=['GET', 'POST'])
+def login():
+    if session.has_key('user'):
+        #Don't want a 301 redirect here.
+        return redirect("/account/")
+    else:
+        if request.method == 'POST':
+            person = Person(CONNECTION_STRING)
+        return render_template('login.html')
 
 @app.route('/file-upload/', methods=['GET', 'POST'])
 def upload():
