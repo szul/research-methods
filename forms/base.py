@@ -11,8 +11,8 @@ class BaseField:
 
 class TextField(BaseField):
     
-    def __init__(self, field_id = None, name = None, label = None, class_name = None, disabled = False, readonly = False, maxlength = None):
-        Base.__init__(self, field_id = field_id, name = name, label = label, class_name = class_name, disabled = disabled, readonly = readonly)
+    def __init__(self, field_id = None, name = None, label = None, class_name = '', disabled = False, readonly = False, maxlength = None):
+        BaseField.__init__(self, field_id = field_id, name = name, label = label, class_name = class_name, disabled = disabled, readonly = readonly)
         self.type_name = "text"
         self.maxlength = maxlength
 
@@ -34,8 +34,8 @@ class TextField(BaseField):
 
 class PasswordField(TextField):
 
-    def __init__(self, field_id = None, name = None, label = None, class_name = None, disabled = False, readonly = False, maxlength = None):
-        Base.__init__(self, field_id = field_id, name = name, label = label, class_name = class_name, disabled = disabled, readonly = readonly, maxlength = maxlength)
+    def __init__(self, field_id = None, name = None, label = None, class_name = '', disabled = False, readonly = False, maxlength = None):
+        TextField.__init__(self, field_id = field_id, name = name, label = label, class_name = class_name, disabled = disabled, readonly = readonly, maxlength = maxlength)
         self.type_name = "password"
 
 class BaseForm:
@@ -43,7 +43,7 @@ class BaseForm:
     def __init__(self):
         self.field_id = None
         self.name = None
-        self.class_name = None
+        self.class_name = ''
         self.action = '.'
         self.method = 'GET'
         self.fields = []

@@ -5,8 +5,8 @@ import os
 from config import *
 from libresearchdata import ResearchData
 from data.User.models import PersonCollection, Person
-from forms.User.forms import LoginForm
-from flask import Flask, request, flash, render_template, session, redirect
+from forms.User.forms import PersonForm
+from flask import Flask, request, flash, render_template, session, redirect, Markup
 from werkzeug import secure_filename
 
 app = Flask(__name__)
@@ -23,12 +23,13 @@ def index():
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
     if session.has_key('user'):
-        return redirect("/account/")
+        return redirect(url_for('account'))
     else:
-        form = LoginForm()
+        person = None
+        form = PersonForm()
         if request.method == 'POST':
             person = Person(CONNECTION_STRING)
-        return render_template('login.html', form = form)
+        return render_template('login.html', form = Markup(form))
 
 @app.route('/file-upload/', methods=['GET', 'POST'])
 def upload():
