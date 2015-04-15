@@ -29,6 +29,8 @@ def login():
         form = PersonForm()
         if request.method == 'POST':
             person = Person(CONNECTION_STRING)
+            person.select(email = request.form[form.expand_fn('Email')], password = request.form[form.expand_fn('Password')])
+            form.fill(person)
         return render_template('login.html', form = Markup(form))
 
 @app.route('/file-upload/', methods=['GET', 'POST'])
