@@ -1,11 +1,11 @@
 import pyodbc
 
-from ..base import Base, BaseCollection
+from ..base import BaseRecord, BaseCollection
 
-class Person(Base):
+class Person(BaseRecord):
 
-    def __init__(self, connection_string):
-        Base.__init__(self, connection_string)
+    def __init__(self, connection_string = None):
+        BaseRecord.__init__(self, connection_string)
         self.Id = None
         self.Active = None
         self.Hidden = None
@@ -61,5 +61,42 @@ class Person(Base):
 
 class PersonCollection(BaseCollection):
     
-    def __init__(self, connection_string):
+    def __init__(self, connection_string = None):
         BaseCollection.__init__(self, connection_string)
+
+    def select(self, id = None, active = 'True', hidden = 'False', readonly = 'False', datecreated = None, datemodified = None, us = None, rs = None, code = None, name = None, description = None, email = None, password = None):
+        #No Meta or TS for this.
+        parameters = self.__double_params__([id, active, hidden, readonly, datecreated, datemodified, us, rs, code, name, description, email, password])
+        sql = """
+                SELECT
+                    [Id],
+                    [Active],
+                    [Hidden],
+                    [ReadOnly],
+                    [DateCreated],
+                    [DateModified],
+                    [US],
+                    [RS],
+                    [Meta],
+                    [Code],
+                    [Name],
+                    [Description],
+                    [TS],
+                    [Email],
+                    [Password]
+                        FROM [User].[Person]
+                        WHERE (NullIf(?, 'None') IS NULL OR [Id] = NullIf(?, 'None'))
+                            AND (NullIf(?, 'None') IS NULL OR [Active] = NullIf(?, 'None'))
+                            AND (NullIf(?, 'None') IS NULL OR [Hidden] = NullIf(?, 'None'))
+                            AND (NullIf(?, 'None') IS NULL OR [ReadOnly] = NullIf(?, 'None'))
+                            AND (NullIf(?, 'None') IS NULL OR [DateCreated] = NullIf(?, 'None'))
+                            AND (NullIf(?, 'None') IS NULL OR [DateModified] = NullIf(?, 'None'))
+                            AND (NullIf(?, 'None') IS NULL OR [US] = NullIf(?, 'None'))
+                            AND (NullIf(?, 'None') IS NULL OR [RS] = NullIf(?, 'None'))
+                            AND (NullIf(?, 'None') IS NULL OR [Code] = NullIf(?, 'None'))
+                            AND (NullIf(?, 'None') IS NULL OR [Name] = NullIf(?, 'None'))
+                            AND (NullIf(?, 'None') IS NULL OR [Description] = NullIf(?, 'None'))
+                            AND (NullIf(?, 'None') IS NULL OR [Email] = NullIf(?, 'None'))
+                            AND (NullIf(?, 'None') IS NULL OR [Password] = NullIf(?, 'None'))
+                        ORDER BY [DateCreated] DESC"""
+        self.__execute_select__(parameters, sql, Person)

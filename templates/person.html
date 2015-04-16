@@ -1,0 +1,63 @@
+{% extends "master.html" %}
+{% block title %}Person List{% endblock %}
+{% block head %}{% endblock %}
+{% block main %}
+    <table>
+        <tr>
+            <td>Id</td>
+            <td>{{ person.Id }}</td>
+        </tr>
+        <tr>
+            <td>Active</td>
+            <td>{{ person.Active }}</td>
+        </tr>
+        <tr>
+            <td>Hidden</td>
+            <td>{{ person.Hidden }}</td>
+        </tr>
+        <tr>
+            <td>ReadOnly</td>
+            <td>{{ person.ReadOnly }}</td>
+        </tr>
+        <tr>
+            <td>DateCreated</td>
+            <td>{{ person.DateCreated }}</td>
+        </tr>
+        <tr>
+            <td>DateModified</td>
+            <td>{{ person.DateModified }}</td>
+        </tr>
+        <tr>
+            <td>US</td>
+            <td>{{ person.US }}</td>
+        </tr>
+        <tr>
+            <td>RS</td>
+            <td>{{ person.RS }}</td>
+        </tr>
+        <tr>
+            <td>Meta</td>
+            <td>{{ person.Meta }}</td>
+        </tr>
+        <tr>
+            <td>Code</td>
+            <td>{{ person.Code }}</td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>{{ person.Name }}</td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td>{{ person.Description }}</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>{{ person.Email }}</td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td>{{ person.Password }}</td>
+        </tr>
+    </table>
+{% endblock %}

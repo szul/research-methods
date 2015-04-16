@@ -1,0 +1,23 @@
+{% extends "master.html" %}
+{% block title %}Person List{% endblock %}
+{% block head %}{% endblock %}
+{% block main %}
+    <table>
+        <thead>
+            <th>Menu</th>
+            <th>Name</th>
+            <td>Description</td>
+            <th>Email</th>
+        </thead>
+        <tbody>
+            {% for person in person_collection.Collection %}
+                <tr>
+                    <td><a href="{{ url_for('person', guid = person.RS) }}">Choose</a> <a href="{{ url_for('person_edit', guid = person.RS) }}">Edit</a></td>
+                    <td>{{ person.Name }}</td>
+                    <td>{{ person.Description }}</td>
+                    <td>{{ person.Email }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

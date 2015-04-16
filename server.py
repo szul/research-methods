@@ -1,6 +1,4 @@
-import json
-import requests
-import os
+import json, requests, os
 
 from config import *
 from libresearchdata import ResearchData
@@ -28,7 +26,7 @@ def login():
         person = None
         form = PersonForm()
         if request.method == 'POST':
-            person = Person(CONNECTION_STRING)
+            person = Person()
             person.select(email = request.form[form.expand_fn('Email')], password = request.form[form.expand_fn('Password')])
             form.fill(person)
         return render_template('login.html', form = Markup(form))
@@ -57,6 +55,32 @@ def upload():
 def research_data():
     data = session['data'] if session.has_key('data') else None
     return render_template('data-grid.html', data = data)
+
+@app.route('/person/list/')
+def person_list():
+    person_collection = PersonCollection()
+    person_collection.select(active = 'True')
+    return render_template('person-list.html', person_collection = person_collection)
+
+@app.route('/person/<guid>/')
+def person(guid):
+    person = Person()
+    person.select(rs = guid)
+    return render_template('person.html', person = person)
+
+@app.route('/person/<guid>/edit/', methods=['GET', 'POST'])
+def person_edit(guid):
+    form = None
+    if guid is not None:
+        person = Person()
+        person.select(rs = guid)
+        form = PersonForm()
+        form.fill(person)
+        #if request.method == 'POST':
+            #process form
+    else:
+        flash('Error: No GUID present!')
+    return render_template('person-edit.html', form = Markup(form))
 
 if __name__ == '__main__':
     app.run()
