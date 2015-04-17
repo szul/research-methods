@@ -1,5 +1,5 @@
 
-from ..base import BaseForm, TextField, PasswordField
+from ..base import BaseForm, TextField, PasswordField, HiddenField, Checkbox
 
 class PersonForm(BaseForm):
 
@@ -10,25 +10,25 @@ class PersonForm(BaseForm):
         self.action = '.'
         self.method = 'POST'
         self.fields = [
-            TextField(
+            HiddenField(
                 data = 'Id',
                 field_id = 'Id' + self.field_id,
                 name = 'Id' + self.name,
                 label = 'Id'
             ),
-            TextField(
+            Checkbox(
                 data = 'Active',
                 field_id = 'Active' + self.field_id,
                 name = 'Active' + self.name,
                 label = 'Active'
             ),
-            TextField(
+            Checkbox(
                 data = 'Hidden',
                 field_id = 'Hidden' + self.field_id,
                 name = 'Hidden' + self.name,
                 label = 'Hidden'
             ),
-            TextField(
+            Checkbox(
                 data = 'ReadOnly',
                 field_id = 'ReadOnly' + self.field_id,
                 name = 'ReadOnly' + self.name,
@@ -46,13 +46,13 @@ class PersonForm(BaseForm):
                 name = 'DateModified' + self.name,
                 label = 'DateModified'
             ),
-            TextField(
+            HiddenField(
                 data = 'US',
                 field_id = 'US' + self.field_id,
                 name = 'US' + self.name,
                 label = 'US'
             ),
-            TextField(
+            HiddenField(
                 data = 'RS',
                 field_id = 'RS' + self.field_id,
                 name = 'RS' + self.name,

@@ -10,6 +10,14 @@ class BaseField:
         self.disabled = disabled
         self.readonly = readonly
         self.value = None
+        
+    def __concat_optional__(self):
+        optional = []
+        if self.disabled:
+            optional.append('disabled="disabled"')
+        if self.readonly:
+            optional.append('readonly="readonly"')
+        return '' if len(optional) == 0 else ' '.join(optional)
 
 class TextField(BaseField):
     
@@ -20,10 +28,7 @@ class TextField(BaseField):
 
     def __concat_optional__(self):
         optional = []
-        if self.disabled:
-            optional.append('disabled="disabled"')
-        if self.readonly:
-            optional.append('readonly="readonly"')
+        optional.append(BaseField.__concat_optional__(self))
         if self.maxlength:
             optional.append('maxlength="%s"' % self.maxlength)
         return '' if len(optional) == 0 else ' '.join(optional)
@@ -34,11 +39,40 @@ class TextField(BaseField):
                 <input type="{type_name}" id="{field_id}" name="{name}" class="{class_name}" value="{value}" {optional} />
                 """.format(name = self.name, label = self.label, type_name = self.type_name, field_id = self.field_id, class_name = self.class_name, value = '' if self.value is None else self.value, optional = self.__concat_optional__())
 
+class Checkbox(BaseField):
+    
+    def __init__(self, data = None, field_id = None, name = None, label = None, class_name = '', disabled = False, readonly = False, maxlength = None):
+        BaseField.__init__(self, data = data, field_id = field_id, name = name, label = label, class_name = class_name, disabled = disabled, readonly = readonly)
+        self.type_name = "checkbox"
+
+    def __concat_optional__(self):
+        return BaseField.__concat_optional__(self);
+        
+    def __str__(self):
+        checked = ''
+        if self.value is not None and self.value == True:
+            checked = 'checked="checked"'
+        return  """
+                <label for="{name}">{label}</label>
+                <input type="{type_name}" id="{field_id}" name="{name}" class="{class_name}" {checked} {optional} />
+                """.format(name = self.name, label = self.label, type_name = self.type_name, field_id = self.field_id, class_name = self.class_name, checked = checked, optional = self.__concat_optional__())
+
 class PasswordField(TextField):
 
     def __init__(self, data = None, field_id = None, name = None, label = None, class_name = '', disabled = False, readonly = False, maxlength = None):
         TextField.__init__(self, data = data, field_id = field_id, name = name, label = label, class_name = class_name, disabled = disabled, readonly = readonly, maxlength = maxlength)
         self.type_name = "password"
+
+class HiddenField(TextField):
+
+    def __init__(self, data = None, field_id = None, name = None, label = None, class_name = '', disabled = False, readonly = False, maxlength = None):
+        TextField.__init__(self, data = data, field_id = field_id, name = name, label = label, class_name = class_name, disabled = disabled, readonly = readonly, maxlength = maxlength)
+        self.type_name = "hidden"
+        
+    def __str__(self):
+        return  """
+                <input type="{type_name}" id="{field_id}" name="{name}" class="{class_name}" value="{value}" {optional} />
+                """.format(name = self.name, type_name = self.type_name, field_id = self.field_id, class_name = self.class_name, value = '' if self.value is None else self.value, optional = self.__concat_optional__())
 
 class BaseForm:
 
