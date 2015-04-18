@@ -91,6 +91,28 @@ class HiddenField(TextField):
                 <input type="{type_name}" id="{field_id}" name="{name}" class="{class_name}" value="{value}" {optional} />
                 """.format(name = self.name, type_name = self.type_name, field_id = self.field_id, class_name = self.class_name, value = '' if self.value is None else self.value, optional = self.__concat_optional__())
 
+class TextArea(BaseField):
+    
+    def __init__(self, data = None, field_id = None, name = None, label = None, class_name = '', disabled = False, readonly = False, maxlength = None):
+        BaseField.__init__(self, data = data, field_id = field_id, name = name, label = label, class_name = class_name, disabled = disabled, readonly = readonly)
+        self.type_name = "textarea"
+        self.maxlength = maxlength
+
+    def __concat_optional__(self):
+        optional = []
+        optional.append(BaseField.__concat_optional__(self))
+        if self.maxlength:
+            optional.append('maxlength="%s"' % self.maxlength)
+        return '' if len(optional) == 0 else ' '.join(optional)
+        
+    def __str__(self):
+        return  """
+                <label for="{name}">{label}</label>
+                <textarea id="{field_id}" name="{name}" class="{class_name}" {optional}>
+                    {value}
+                </textarea>
+                """.format(name = self.name, label = self.label, type_name = self.type_name, field_id = self.field_id, class_name = self.class_name, value = '' if self.value is None else self.value, optional = self.__concat_optional__())
+
 class BaseForm:
 
     def __init__(self):

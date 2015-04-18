@@ -1,5 +1,5 @@
 
-from ..base import BaseForm, TextField, PasswordField, HiddenField, Checkbox, DateTimeField
+from ..base import BaseForm, TextField, PasswordField, HiddenField, Checkbox, DateTimeField, TextArea
 
 class PersonForm(BaseForm):
 
@@ -58,7 +58,7 @@ class PersonForm(BaseForm):
                 name = 'RS' + self.name,
                 label = 'RS'
             ),
-            TextField(
+            TextArea(
                 data = 'Meta',
                 field_id = 'Meta' + self.field_id,
                 name = 'Meta' + self.name,
@@ -76,7 +76,7 @@ class PersonForm(BaseForm):
                 name = 'Name' + self.name,
                 label = 'Name'
             ),
-            TextField(
+            TextArea(
                 data = 'Description',
                 field_id = 'Description' + self.field_id,
                 name = 'Description' + self.name,
