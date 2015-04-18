@@ -57,6 +57,23 @@ class Checkbox(BaseField):
                 <input type="{type_name}" id="{field_id}" name="{name}" class="{class_name}" {checked} {optional} />
                 """.format(name = self.name, label = self.label, type_name = self.type_name, field_id = self.field_id, class_name = self.class_name, checked = checked, optional = self.__concat_optional__())
 
+class DateTimeField(TextField):
+
+    def __init__(self, data = None, field_id = None, name = None, label = None, class_name = '', disabled = False, readonly = False, maxlength = None):
+        TextField.__init__(self, data = data, field_id = field_id, name = name, label = label, class_name = class_name, disabled = disabled, readonly = readonly, maxlength = maxlength)
+        self.type_name = "datetime-local"
+    
+    def __str__(self):
+        value = None
+        if self.value is not None:
+            parts = str(self.value).split(' ')
+            value = 'T'.join(parts)
+        return  """
+                <label for="{name}">{label}</label>
+                <input type="{type_name}" id="{field_id}" name="{name}" class="{class_name}" value="{value}" {optional} />
+                """.format(name = self.name, label = self.label, type_name = self.type_name, field_id = self.field_id, class_name = self.class_name, value = '' if value is None else value, optional = self.__concat_optional__())
+                #2015-04-14 10:14:39.980000        
+
 class PasswordField(TextField):
 
     def __init__(self, data = None, field_id = None, name = None, label = None, class_name = '', disabled = False, readonly = False, maxlength = None):

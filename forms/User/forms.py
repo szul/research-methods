@@ -1,5 +1,5 @@
 
-from ..base import BaseForm, TextField, PasswordField, HiddenField, Checkbox
+from ..base import BaseForm, TextField, PasswordField, HiddenField, Checkbox, DateTimeField
 
 class PersonForm(BaseForm):
 
@@ -34,13 +34,13 @@ class PersonForm(BaseForm):
                 name = 'ReadOnly' + self.name,
                 label = 'ReadOnly'
             ),
-            TextField(
+            DateTimeField(
                 data = 'DateCreated',
                 field_id = 'DateCreated' + self.field_id,
                 name = 'DateCreated' + self.name,
                 label = 'DateCreated'
             ),
-            TextField(
+            DateTimeField(
                 data = 'DateModified',
                 field_id = 'DateModified' + self.field_id,
                 name = 'DateModified' + self.name,
