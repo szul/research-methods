@@ -141,5 +141,10 @@ class BaseForm:
         for field in self.fields:
             field.value = model.__dict__[field.data]
 
-    def expand_fn(self, field):
-        return ''.join([field, self.name])
+    def expand_fn(self, item, model = None):
+        if model is not None:
+            for itm in item:
+                model.__dict__[itm.replace(self.name, '')] = item[itm]
+            return model
+        else:
+            return ''.join([item, self.name])

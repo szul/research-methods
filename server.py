@@ -73,11 +73,12 @@ def person_edit(guid):
     form = None
     if guid is not None:
         person = Person()
-        person.select(rs = guid)
         form = PersonForm()
-        form.fill(person)
-        #if request.method == 'POST':
-            #process form
+        if request.method == 'POST':
+            form.fill(form.expand_fn(request.form, person))
+        else:
+            person.select(rs = guid)
+            form.fill(person)
     else:
         flash('Error: No GUID present!')
     return render_template('person-edit.html', form = Markup(form))
