@@ -148,3 +148,12 @@ class BaseForm:
             return model
         else:
             return ''.join([item, self.name])
+
+    def prepare(self):
+        items = {}
+        for field in self.fields:
+            print field
+            print field.name
+            print field.value
+            items[field.name.replace(self.name, '')] = field.value
+        return items

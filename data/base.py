@@ -52,6 +52,18 @@ class BaseRecord(Base):
                     pass
         self.__cleanup_db__(db, cursor)
 
+    def __insert__(self, items):
+        print items
+
+    def __update__(self, items):
+        print items
+
+    def save(self, items):
+        if items['Id'] is not None and items['Id'] != '':
+            return self.__update__(self, items)
+        else:
+            return self.__insert__(self, items)
+
     def to_xml(self):
         doc = et.Element(self.__class__.__name__)
         for key, value in { k: v for k, v in self.__dict__.iteritems() if k != 'connection_string' }.iteritems():
