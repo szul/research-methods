@@ -75,7 +75,7 @@ def person_edit(guid):
         person = Person()
         form = PersonForm()
         if request.method == 'POST':
-            form.fill(form.expand_fn(request.form, person))
+            form.fill(person, request.form)
             person.save(form.prepare())
         else:
             person.select(rs = guid)

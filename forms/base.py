@@ -137,23 +137,20 @@ class BaseForm:
                 </form>
                 """.format(field_id = self.field_id, name = self.name, method = self.method, action = self.action, class_name = self.class_name, fields = self.__concat_fields__())
 
-    def fill(self, model):
-        for field in self.fields:
-            field.value = model.__dict__[field.data]
-
-    def expand_fn(self, item, model = None):
-        if model is not None:
-            for itm in item:
-                model.__dict__[itm.replace(self.name, '')] = item[itm]
-            return model
+    def fill(self, model, items = None):
+        if items is not None:
+            for item in items:
+                model.__dict__[item.replace(self.name, '')] = items[item]
+            self.fill(model)
         else:
-            return ''.join([item, self.name])
+            for field in self.fields:
+                field.value = model.__dict__[field.data]
 
-    def prepare(self):
+    def expand_fn(self, item):
+        return ''.join([item, self.name])
+
+    def prepare(self, model = None):
         items = {}
         for field in self.fields:
-            print field
-            print field.name
-            print field.value
             items[field.name.replace(self.name, '')] = field.value
         return items

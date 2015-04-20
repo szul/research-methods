@@ -52,17 +52,11 @@ class BaseRecord(Base):
                     pass
         self.__cleanup_db__(db, cursor)
 
-    def __insert__(self, items):
-        print items
-
-    def __update__(self, items):
-        print items
-
-    def save(self, items):
+    def save(self, items, insert, update):
         if items['Id'] is not None and items['Id'] != '':
-            return self.__update__(self, items)
+            return update(self, items)
         else:
-            return self.__insert__(self, items)
+            return insert(self, items)
 
     def to_xml(self):
         doc = et.Element(self.__class__.__name__)

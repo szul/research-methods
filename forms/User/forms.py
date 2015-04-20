@@ -5,6 +5,7 @@ class PersonForm(BaseForm):
 
     def __init__(self):
         BaseForm.__init__(self)
+        self.data = "User.Person"
         self.field_id = "PersonForm"
         self.name = "PersonForm"
         self.action = '.'

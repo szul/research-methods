@@ -59,6 +59,13 @@ class Person(BaseRecord):
                         ORDER BY [DateCreated] DESC"""
         self.__execute_select__(parameters, sql)
 
+    def save(self, items):
+        def __insert__(self, items):
+            print items
+        def __update__(self, items):
+            print items
+        BaseRecord.save(self, items, __insert__, __update__)
+
 class PersonCollection(BaseCollection):
     
     def __init__(self, connection_string = None):
