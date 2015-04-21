@@ -59,12 +59,6 @@ class PersonForm(BaseForm):
                 name = 'RS' + self.name,
                 label = 'RS'
             ),
-            TextArea(
-                data = 'Meta',
-                field_id = 'Meta' + self.field_id,
-                name = 'Meta' + self.name,
-                label = 'Meta'
-            ),
             TextField(
                 data = 'Code',
                 field_id = 'Code' + self.field_id,

@@ -4,7 +4,7 @@ from config import *
 from libresearchdata import ResearchData
 from data.User.models import PersonCollection, Person
 from forms.User.forms import PersonForm
-from flask import Flask, request, flash, render_template, session, redirect, Markup
+from flask import Flask, request, flash, render_template, session, redirect, Markup, url_for
 from werkzeug import secure_filename
 
 app = Flask(__name__)
@@ -68,21 +68,45 @@ def person(guid):
     person.select(rs = guid)
     return render_template('person.html', person = person)
 
+@app.route('/person/new/', methods=['GET', 'POST'])
+def person_new():
+    person = Person()
+    form = PersonForm()
+    if request.method == 'POST':
+        form.fill(person, request.form)
+        #Do validation here.
+        person.save(form.prepare())
+        return redirect(url_for('person_list'))
+    return render_template('person-form.html', form = Markup(form))
+
 @app.route('/person/<guid>/edit/', methods=['GET', 'POST'])
 def person_edit(guid):
+    #This will need to check ownership before editing
     form = None
     if guid is not None:
         person = Person()
         form = PersonForm()
         if request.method == 'POST':
             form.fill(person, request.form)
+            #Do validation here.
             person.save(form.prepare())
+            return redirect(url_for('person_list'))
         else:
             person.select(rs = guid)
             form.fill(person)
     else:
         flash('Error: No GUID present!')
-    return render_template('person-edit.html', form = Markup(form))
+    return render_template('person-form.html', form = Markup(form))
+
+@app.route('/person/<guid>/delete/')
+def person_delete(guid):
+    #This will need to check ownership before deleting
+    if guid is not None:
+        person = Person()
+        person.delete(guid)
+    else:
+        flash('Error: No GUID present!')
+    return redirect(url_for('person_list'))
 
 if __name__ == '__main__':
     app.run()

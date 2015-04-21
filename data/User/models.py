@@ -56,15 +56,72 @@ class Person(BaseRecord):
                             AND (NullIf(?, 'None') IS NULL OR [Description] = NullIf(?, 'None'))
                             AND (NullIf(?, 'None') IS NULL OR [Email] = NullIf(?, 'None'))
                             AND (NullIf(?, 'None') IS NULL OR [Password] = NullIf(?, 'None'))
-                        ORDER BY [DateCreated] DESC"""
-        self.__execute_select__(parameters, sql)
+                        ORDER BY [DateCreated] DESC
+                """
+        BaseRecord.select(self, parameters, sql)
 
     def save(self, items):
         def __insert__(self, items):
-            print items
+            parameters = [items['Active'], items['Hidden'], items['ReadOnly'], items['DateCreated'], items['DateModified'], items['US'], items['Code'], items['Name'], items['Description'], items['Email'], items['Password']]
+            sql = """
+                    INSERT
+                        INTO [User].[Person]
+                        (
+                            [Active],
+                            [Hidden],
+                            [ReadOnly],
+                            [DateCreated],
+                            [DateModified],
+                            [US],
+                            [Code],
+                            [Name],
+                            [Description],
+                            [Email],
+                            [Password]
+                        )
+                        SELECT
+                            ISNULL(NULLIF(?, 'None'), 0),
+                            ISNULL(NULLIF(?, 'None'), 0),
+                            ISNULL(NULLIF(?, 'None'), 0),
+                            ISNULL(NULLIF(?, 'None'), GETDATE()),
+                            ISNULL(NULLIF(?, 'None'), GETDATE()),
+                            NULLIF(?, ''),
+                            NULLIF(?, ''),
+                            NULLIF(?, ''),
+                            NULLIF(?, ''),
+                            NULLIF(?, ''),
+                            NULLIF(?, '')
+                    """
+            return (parameters, sql)
         def __update__(self, items):
-            print items
+            parameters = [items['Active'], items['Hidden'], items['ReadOnly'], items['DateCreated'], items['DateModified'], items['US'], items['Code'], items['Name'], items['Description'], items['Email'], items['Password'], items['Id']]
+            sql = """
+                    UPDATE [User].[Person]
+                        SET [Active] = ISNULL(NULLIF(?, 'None'), 0),
+                            [Hidden] = ISNULL(NULLIF(?, 'None'), 0),
+                            [ReadOnly] = ISNULL(NULLIF(?, 'None'), 0),
+                            [DateCreated] = NULLIF(?, 'None'),
+                            [DateModified] = ISNULL(NULLIF(?, 'None'), GETDATE()),
+                            [US] = NULLIF(?, ''),
+                            [Code] = NULLIF(?, ''),
+                            [Name] = NULLIF(?, ''),
+                            [Description] = NULLIF(?, ''),
+                            [Email] = NULLIF(?, ''),
+                            [Password] = NULLIF(?, '')
+                        FROM [User].[Person]
+                        WHERE [Id] = ?
+                    """
+            return (parameters, sql)
         BaseRecord.save(self, items, __insert__, __update__)
+
+    def delete(self, guid):
+        parameters = [guid]
+        sql = """
+                DELETE 
+                    FROM [User].[Person]
+                    WHERE [RS] = ?
+                """
+        BaseRecord.delete(self, parameters, sql)
 
 class PersonCollection(BaseCollection):
     
@@ -92,18 +149,18 @@ class PersonCollection(BaseCollection):
                     [Email],
                     [Password]
                         FROM [User].[Person]
-                        WHERE (NullIf(?, 'None') IS NULL OR [Id] = NullIf(?, 'None'))
-                            AND (NullIf(?, 'None') IS NULL OR [Active] = NullIf(?, 'None'))
-                            AND (NullIf(?, 'None') IS NULL OR [Hidden] = NullIf(?, 'None'))
-                            AND (NullIf(?, 'None') IS NULL OR [ReadOnly] = NullIf(?, 'None'))
-                            AND (NullIf(?, 'None') IS NULL OR [DateCreated] = NullIf(?, 'None'))
-                            AND (NullIf(?, 'None') IS NULL OR [DateModified] = NullIf(?, 'None'))
-                            AND (NullIf(?, 'None') IS NULL OR [US] = NullIf(?, 'None'))
-                            AND (NullIf(?, 'None') IS NULL OR [RS] = NullIf(?, 'None'))
-                            AND (NullIf(?, 'None') IS NULL OR [Code] = NullIf(?, 'None'))
-                            AND (NullIf(?, 'None') IS NULL OR [Name] = NullIf(?, 'None'))
-                            AND (NullIf(?, 'None') IS NULL OR [Description] = NullIf(?, 'None'))
-                            AND (NullIf(?, 'None') IS NULL OR [Email] = NullIf(?, 'None'))
-                            AND (NullIf(?, 'None') IS NULL OR [Password] = NullIf(?, 'None'))
+                        WHERE (NULLIF(?, 'None') IS NULL OR [Id] = NULLIF(?, 'None'))
+                            AND (NULLIF(?, 'None') IS NULL OR [Active] = NULLIF(?, 'None'))
+                            AND (NULLIF(?, 'None') IS NULL OR [Hidden] = NULLIF(?, 'None'))
+                            AND (NULLIF(?, 'None') IS NULL OR [ReadOnly] = NULLIF(?, 'None'))
+                            AND (NULLIF(?, 'None') IS NULL OR [DateCreated] = NULLIF(?, 'None'))
+                            AND (NULLIF(?, 'None') IS NULL OR [DateModified] = NULLIF(?, 'None'))
+                            AND (NULLIF(?, 'None') IS NULL OR [US] = NULLIF(?, 'None'))
+                            AND (NULLIF(?, 'None') IS NULL OR [RS] = NULLIF(?, 'None'))
+                            AND (NULLIF(?, 'None') IS NULL OR [Code] = NULLIF(?, 'None'))
+                            AND (NULLIF(?, 'None') IS NULL OR [Name] = NULLIF(?, 'None'))
+                            AND (NULLIF(?, 'None') IS NULL OR [Description] = NULLIF(?, 'None'))
+                            AND (NULLIF(?, 'None') IS NULL OR [Email] = NULLIF(?, 'None'))
+                            AND (NULLIF(?, 'None') IS NULL OR [Password] = NULLIF(?, 'None'))
                         ORDER BY [DateCreated] DESC"""
         self.__execute_select__(parameters, sql, Person)

@@ -41,7 +41,7 @@ class BaseRecord(Base):
     def __str__(self):
         return self.to_xmlstring()
 
-    def __execute_select__(self, params, sql):
+    def select(self, params, sql):
         db, cursor = self.__get_cursor__(sql, params)
         row = cursor.fetchone()
         for prop in vars(self):
@@ -53,10 +53,21 @@ class BaseRecord(Base):
         self.__cleanup_db__(db, cursor)
 
     def save(self, items, insert, update):
+        params = None
+        sql = None
+        rowcount = 0
         if items['Id'] is not None and items['Id'] != '':
-            return update(self, items)
+            params, sql = update(self, items)
         else:
-            return insert(self, items)
+            params, sql = insert(self, items)
+        db, cursor = self.__get_cursor__(sql, params)
+        db.commit()
+        self.__cleanup_db__(db, cursor)
+        
+    def delete(self, params, sql):
+        db, cursor = self.__get_cursor__(sql, params)
+        db.commit()
+        self.__cleanup_db__(db, cursor)
 
     def to_xml(self):
         doc = et.Element(self.__class__.__name__)
@@ -96,7 +107,7 @@ class BaseCollection(Base):
             for prop in vars(entry):
                 if prop != 'connection_string':
                     try:
-                        entry.__dict__[prop] = row.__getattribute__(prop) 
+                        entry.__dict__[prop] = '' if row.__getattribute__(prop) is None else row.__getattribute__(prop)
                     except IndexError:
                         pass
             self.Collection.append(entry)

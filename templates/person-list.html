@@ -6,13 +6,13 @@
         <thead>
             <th>Menu</th>
             <th>Name</th>
-            <td>Description</td>
+            <th>Description</th>
             <th>Email</th>
         </thead>
         <tbody>
             {% for person in person_collection.Collection %}
                 <tr>
-                    <td><a href="{{ url_for('person', guid = person.RS) }}">Choose</a> <a href="{{ url_for('person_edit', guid = person.RS) }}">Edit</a></td>
+                    <td><a href="{{ url_for('person', guid = person.RS) }}">Choose</a> <a href="{{ url_for('person_edit', guid = person.RS) }}">Edit</a> <a href="{{ url_for('person_delete', guid = person.RS) }}">Delete</a></td>
                     <td>{{ person.Name }}</td>
                     <td>{{ person.Description }}</td>
                     <td>{{ person.Email }}</td>
@@ -20,4 +20,5 @@
             {% endfor %}
         </tbody>
     </table>
+    <a href="{{ url_for('person_new') }}">Add New Person</a>
 {% endblock %}

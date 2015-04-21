@@ -1,3 +1,4 @@
+import uuid
 
 class BaseField:
     
@@ -108,9 +109,7 @@ class TextArea(BaseField):
     def __str__(self):
         return  """
                 <label for="{name}">{label}</label>
-                <textarea id="{field_id}" name="{name}" class="{class_name}" {optional}>
-                    {value}
-                </textarea>
+                <textarea id="{field_id}" name="{name}" class="{class_name}" {optional}>{value}</textarea>
                 """.format(name = self.name, label = self.label, type_name = self.type_name, field_id = self.field_id, class_name = self.class_name, value = '' if self.value is None else self.value, optional = self.__concat_optional__())
 
 class BaseForm:
@@ -140,7 +139,7 @@ class BaseForm:
     def fill(self, model, items = None):
         if items is not None:
             for item in items:
-                model.__dict__[item.replace(self.name, '')] = items[item]
+                model.__dict__[item.replace(self.name, '')] = '1' if items[item] == 'on' else items[item]
             self.fill(model)
         else:
             for field in self.fields:
@@ -152,5 +151,7 @@ class BaseForm:
     def prepare(self, model = None):
         items = {}
         for field in self.fields:
+            if field.name.replace(self.name, '') == 'US' and (field.value is None or field.value == ''):
+                items[field.name.replace(self.name, '')] = uuid.UUID('{00000000-0000-0000-0000-000000000000}')
             items[field.name.replace(self.name, '')] = field.value
         return items
