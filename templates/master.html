@@ -7,6 +7,25 @@
         <title>{% block title %}{% endblock %}</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('input[type=submit]').each(function() {
+                    if (!$(this).hasClass('btn')) {
+                        $(this).addClass('btn btn-default');
+                    }
+                });
+                $('input[type=checkbox]').closest('div').each(function() {
+                    if (!$(this).hasClass('checkbox')) {
+                        $(this).addClass('checkbox');
+                    }
+                });
+                $('.form-control').closest('div').each(function() {
+                    if (!$(this).hasClass('form-group')) {
+                        $(this).addClass('form-group');
+                    }
+                });
+            });
+        </script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
         <style media="screen">

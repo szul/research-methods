@@ -2,6 +2,9 @@
 {% block title %}Person List{% endblock %}
 {% block head %}{% endblock %}
 {% block main %}
+    <div class="page-header">
+        <h1>People</h1>
+    </div>
     <table class="table table-striped">
         <thead>
             <th>Menu</th>
@@ -12,7 +15,7 @@
         <tbody>
             {% for person in person_collection.Collection %}
                 <tr>
-                    <td><a href="{{ url_for('person', guid = person.RS) }}">Choose</a> <a href="{{ url_for('person_edit', guid = person.RS) }}">Edit</a> <a href="{{ url_for('person_delete', guid = person.RS) }}">Delete</a></td>
+                    <td><a href="{{ url_for('person', guid = person.RS) }}" class="btn btn-default">Choose</a> <a href="{{ url_for('person_edit', guid = person.RS) }}" class="btn btn-default">Edit</a> <a href="{{ url_for('person_delete', guid = person.RS) }}" class="btn btn-default">Delete</a></td>
                     <td>{{ person.Name }}</td>
                     <td>{{ person.Description }}</td>
                     <td>{{ person.Email }}</td>
@@ -20,5 +23,5 @@
             {% endfor %}
         </tbody>
     </table>
-    <a href="{{ url_for('person_new') }}">Add New Person</a>
+    <a href="{{ url_for('person_new') }}" class="btn btn-default">Add New Person</a>
 {% endblock %}

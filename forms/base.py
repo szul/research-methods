@@ -36,8 +36,10 @@ class TextField(BaseField):
         
     def __str__(self):
         return  """
-                <label for="{name}">{label}</label>
-                <input type="{type_name}" id="{field_id}" name="{name}" class="{class_name}" value="{value}" {optional} />
+                <div>
+                    <label for="{name}">{label}</label>
+                    <input type="{type_name}" id="{field_id}" name="{name}" class="{class_name}" value="{value}" {optional} />
+                </div>
                 """.format(name = self.name, label = self.label, type_name = self.type_name, field_id = self.field_id, class_name = self.class_name, value = '' if self.value is None else self.value, optional = self.__concat_optional__())
 
 class Checkbox(BaseField):
@@ -54,8 +56,11 @@ class Checkbox(BaseField):
         if self.value is not None and self.value == True:
             checked = 'checked="checked"'
         return  """
-                <label for="{name}">{label}</label>
-                <input type="{type_name}" id="{field_id}" name="{name}" class="{class_name}" {checked} {optional} />
+                <div>
+                    <label for="{name}">
+                        <input type="{type_name}" id="{field_id}" name="{name}" class="{class_name}" {checked} {optional} /> {label}
+                    </label>
+                </div>
                 """.format(name = self.name, label = self.label, type_name = self.type_name, field_id = self.field_id, class_name = self.class_name, checked = checked, optional = self.__concat_optional__())
 
 class DateTimeField(TextField):
@@ -70,8 +75,10 @@ class DateTimeField(TextField):
             parts = str(self.value).split(' ')
             value = 'T'.join(parts)
         return  """
-                <label for="{name}">{label}</label>
-                <input type="{type_name}" id="{field_id}" name="{name}" class="{class_name}" value="{value}" {optional} />
+                <div>
+                    <label for="{name}">{label}</label>
+                    <input type="{type_name}" id="{field_id}" name="{name}" class="{class_name}" value="{value}" {optional} />
+                </div>
                 """.format(name = self.name, label = self.label, type_name = self.type_name, field_id = self.field_id, class_name = self.class_name, value = '' if value is None else value, optional = self.__concat_optional__())
                 #2015-04-14 10:14:39.980000        
 
@@ -108,8 +115,10 @@ class TextArea(BaseField):
         
     def __str__(self):
         return  """
-                <label for="{name}">{label}</label>
-                <textarea id="{field_id}" name="{name}" class="{class_name}" {optional}>{value}</textarea>
+                <div>
+                    <label for="{name}">{label}</label>
+                    <textarea id="{field_id}" name="{name}" class="{class_name}" {optional}>{value}</textarea>
+                </div>
                 """.format(name = self.name, label = self.label, type_name = self.type_name, field_id = self.field_id, class_name = self.class_name, value = '' if self.value is None else self.value, optional = self.__concat_optional__())
 
 class BaseForm:
