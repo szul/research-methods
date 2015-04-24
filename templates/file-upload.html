@@ -1,10 +1,8 @@
 {% extends "master.html" %}
 {% block title %}Upload your Research{% endblock %}
 {% block head %}{% endblock %}
+{% block pageheader %}Upload your Research Files{% endblock %}
 {% block main %}
-    <div class="page-header">
-        <h1>Upload your Research Files</h1>
-    </div>
     <form method="post" action="/file-upload/" enctype="multipart/form-data">
         <div class="form-group">
             <label for="file">File</label>
