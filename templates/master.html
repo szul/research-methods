@@ -56,6 +56,12 @@
                         <li><a href="/file-upload/">Upload your Research</a></li>
                         <li><a href="/research-data/">Research Data</a></li>
                         <li><a href="/person/list/">People</a></li>
+                        {{ session.has_key('user') }}
+                        {% if session.has_key('user') %}
+                            <li><a href="/logout/">Logout</a></li>
+                        {% else %}
+                            <li><a href="/login/">Login</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
