@@ -1,4 +1,5 @@
 import uuid
+from validations import Validator
 
 class BaseField:
     
@@ -10,7 +11,9 @@ class BaseField:
         self.class_name = class_name
         self.disabled = disabled
         self.readonly = readonly
+        self.validation = []
         self.value = None
+        self.error_message = None
         
     def __concat_optional__(self):
         optional = []
@@ -153,6 +156,10 @@ class BaseForm:
         else:
             for field in self.fields:
                 field.value = model.__dict__[field.data]
+
+    def validation(self):
+        validator = Validator()
+        return validator.validate(self.fields)
 
     def expand_fn(self, item):
         return ''.join([item, self.name])
