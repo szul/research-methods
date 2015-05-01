@@ -61,9 +61,11 @@ def person_new():
     form = PersonForm()
     if request.method == 'POST':
         form.fill(person, request.form)
-        #Do validation here.
-        person.save(form.prepare())
-        return redirect(url_for('person_list'))
+        if form.validate():
+            person.save(form.prepare())
+            return redirect(url_for('person_list'))
+        else:
+            flash('Error saving form: Validation failed!')
     return render_template('person-form.html', form = Markup(form))
 
 @app.route('/person/<guid>/edit/', methods=['GET', 'POST'])
@@ -75,8 +77,10 @@ def person_edit(guid):
         form = PersonForm()
         if request.method == 'POST':
             form.fill(person, request.form)
-            #Do validation here.
-            person.save(form.prepare())
+            if form.validate():
+                person.save(form.prepare())
+            else:
+                flash('Error saving form!')
             return redirect(url_for('person_list'))
         else:
             person.select(rs = guid)

@@ -2,10 +2,13 @@ import re
 
 class Validation:
 
-    def __init__(self, required = False, email = False, phone = False, number = False):
+    def __init__(self, required = False, email = False, number = False):
         self.required = required
         self.email = email
         self.number = number
+    
+    def __str__(self):
+        return 'Validation'
 
 class Validator:
 
@@ -33,11 +36,23 @@ class Validator:
             if field.validation is not None:
                 if field.validation.required and (field.value is None or field.value.strip() == ''):
                     field.error_messages.append('%s is a required value.' % field.name)
+                    if field.class_name is None:
+                        field.class_name = ['error']
+                    else:
+                        field.class_name.append('error')
                     self.valid = False
-                if field.validation.email and (field.value is None or not self.__is_email__(self, field.value)):
+                if field.validation.email and (field.value is None or not self.__is_email__(field.value)):
                     field.error_messages.append('%s requires a valid email address.' % field.name)
+                    if field.class_name is None:
+                        field.class_name = ['error']
+                    else:
+                        field.class_name.append('error')
                     self.valid = False
-                if field.validation.number and (field.value is None or not self.__is_number__(self, field.value)):
+                if field.validation.number and (field.value is None or not self.__is_number__(field.value)):
                     field.error_messages.append('%s must be a number.' % field.name)
+                    if field.class_name is None:
+                        field.class_name = ['error']
+                    else:
+                        field.class_name.append('error')
                     self.valid = False
         return self.valid

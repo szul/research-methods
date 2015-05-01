@@ -41,42 +41,42 @@ class PersonForm(BaseForm):
                 field_id = 'DateCreated' + self.field_id,
                 name = 'DateCreated' + self.name,
                 label = 'DateCreated',
-                class_name = 'form-control'
+                class_name = ['form-control']
             ),
             DateTimeField(
                 data = 'DateModified',
                 field_id = 'DateModified' + self.field_id,
                 name = 'DateModified' + self.name,
                 label = 'DateModified',
-                class_name = 'form-control'
+                class_name = ['form-control']
             ),
             HiddenField(
                 data = 'US',
                 field_id = 'US' + self.field_id,
                 name = 'US' + self.name,
                 label = 'US',
-                class_name = 'form-control'
+                class_name = ['form-control']
             ),
             HiddenField(
                 data = 'RS',
                 field_id = 'RS' + self.field_id,
                 name = 'RS' + self.name,
                 label = 'RS',
-                class_name = 'form-control'
+                class_name = ['form-control']
             ),
             TextField(
                 data = 'Code',
                 field_id = 'Code' + self.field_id,
                 name = 'Code' + self.name,
                 label = 'Code',
-                class_name = 'form-control'
+                class_name = ['form-control']
             ),
             TextField(
                 data = 'Name',
                 field_id = 'Name' + self.field_id,
                 name = 'Name' + self.name,
                 label = 'Name',
-                class_name = 'form-control',
+                class_name = ['form-control'],
                 validation = Validation(required = True)
             ),
             TextArea(
@@ -84,14 +84,14 @@ class PersonForm(BaseForm):
                 field_id = 'Description' + self.field_id,
                 name = 'Description' + self.name,
                 label = 'Description',
-                class_name = 'form-control'
+                class_name = ['form-control']
             ),
             TextField(
                 data = 'Email',
                 field_id = 'Email' + self.field_id,
                 name = 'Email' + self.name,
                 label = 'Email',
-                class_name = 'form-control',
+                class_name = ['form-control'],
                 validation = Validation(required = True, email = True)
             ),
             PasswordField(
@@ -99,7 +99,7 @@ class PersonForm(BaseForm):
                 field_id = 'Password' + self.field_id,
                 name = 'Password' + self.name,
                 label = 'Password',
-                class_name = 'form-control',
+                class_name = ['form-control'],
                 validation = Validation(required = True)
             )
         ]
