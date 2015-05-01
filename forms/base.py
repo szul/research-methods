@@ -11,10 +11,10 @@ class BaseField:
         self.class_name = class_name
         self.disabled = disabled
         self.readonly = readonly
-        self.validation = []
+        self.validation = None
         self.value = None
-        self.error_message = None
-        
+        self.error_messages = []
+
     def __concat_optional__(self):
         optional = []
         if self.disabled:

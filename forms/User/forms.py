@@ -1,6 +1,6 @@
 
 from ..base import BaseForm, TextField, PasswordField, HiddenField, Checkbox, DateTimeField, TextArea
-from ..validations import REQUIRED, EMAIL
+from ..validations import Validation
 
 class PersonForm(BaseForm):
 
@@ -77,9 +77,7 @@ class PersonForm(BaseForm):
                 name = 'Name' + self.name,
                 label = 'Name',
                 class_name = 'form-control',
-                validation = [
-                    REQUIRED
-                ]
+                validation = Validation(required = True)
             ),
             TextArea(
                 data = 'Description',
@@ -94,10 +92,7 @@ class PersonForm(BaseForm):
                 name = 'Email' + self.name,
                 label = 'Email',
                 class_name = 'form-control',
-                validation = [
-                    REQUIRED,
-                    EMAIL
-                ]
+                validation = Validation(required = True, email = True)
             ),
             PasswordField(
                 data = 'Password',
@@ -105,8 +100,6 @@ class PersonForm(BaseForm):
                 name = 'Password' + self.name,
                 label = 'Password',
                 class_name = 'form-control',
-                validation = [
-                    REQUIRED
-                ]
+                validation = Validation(required = True)
             )
         ]
