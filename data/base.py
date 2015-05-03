@@ -2,6 +2,7 @@ import pyodbc, json, calendar, datetime
 import xml.etree.cElementTree as et
 
 from config import CONNECTION_STRING
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class Base:
 
@@ -68,6 +69,12 @@ class BaseRecord(Base):
         db, cursor = self.__get_cursor__(sql, params)
         db.commit()
         self.__cleanup_db__(db, cursor)
+
+    def hash_column(self, column):
+        return generate_password_hash(column)
+
+    def verify_hash(self, column, check):
+        return check_password_hash(column, check)
 
     def to_xml(self):
         doc = et.Element(self.__class__.__name__)
