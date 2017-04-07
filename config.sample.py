@@ -1,0 +1,7 @@
+UPLOAD_FOLDER = 'C:/x'
+ALLOWED_EXTENSIONS = set(['csv'])
+SECRET_KEY = ''
+
+#Database
+GENERATOR_FOLDER = 'C:/x'
+CONNECTION_STRING = ''

@@ -50,7 +50,3 @@ Temporary Items
 
 # Configuration file
 config.py
-
-# Don't commit generator to GitHub
-generator.py
-generator/
